@@ -1,0 +1,5 @@
+# Introduction
+
+This tutorial/book/work (call it what you like. I don't know it yet, too.) will try to give you an insight of Doctrine's migrations and how to use them in your symfony 1.3 / 1.4 projects.
+
+I wanted to write this guide (I think calling it a guide will do) because I had the chance to use Doctrine's migrations for quite some time now and wanted to share my knowledge with you. Also I wanted to give something back for the hard work the Doctrine and symfony teams put into their projects. We use these projects every day **for free** and in my opinion their teams deserve that we community members give something back for this.

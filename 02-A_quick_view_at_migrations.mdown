@@ -1,0 +1,22 @@
+## A quick view at migrations
+
+### What migrations are
+
+Basically migrations are a way to introduce a versioning system to your databases. Using migrations you can keep track of the changes made to your schema and use them to update your database tables without all the pain you will have when droping your database and re-generating it with an updated schema again.
+
+Doctrine as well as other ORMs uses the concept of migrations by creating files which create, update or delete tables and columns. Doctrine's migration files are just classes that extend the *Doctrine_Migration* class. These classes use methods to manipulate your databases tables and columns. Basically Doctrine generated one file per version which will hold all the changes that need to made to update the database to this version of the schema.
+
+That said you might already have an idea about what benefits you can gain from using migrations in your projects.
+
+
+### Why you should use migrations
+
+Migrations add another mighty tool to your symony toolbox when it comes down to manipulating or updating your project databases. Because of the added versioning you get the chance to update your database from one version to another and at the same time decreasing the chance that this update will break your data.
+
+This means for example that you can update your database at computer A to the schema of computer B without dropping and re-generating it again. You may think that is only helpfull when you are developing applications in teams where multiple developers work with schema of the database. But migrations are also very helpfull to update your live databases after you made some changes to your code and your database schema.
+
+
+### What migrations cannot do for you
+
+In the last paragraph I mentioned team development. Migrations will never replace SCM tools like svn or git. Nor can migrations handle situations where two developers added migrations at the same time and expect Doctrine to do the merging. You will still have to keep track of your database changes and add migrations **wisely** and **one after another**.
+
