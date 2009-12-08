@@ -1,0 +1,63 @@
+## Everyday work with migrations
+
+After you have set up migrations for your database you can start using them to generate diffs of your current and your chnaged schema or create your own ones to achieve smooth updates between your schema versions. This chapter will show you how to use migrations in your everyday development cycle.
+
+
+### Generating diffs
+
+Imagine you have set up a database with a *User* table which holds a *fullname* column.
+
+[code=yaml]
+User:
+  actAs:
+    Timestampable:  ~
+  columns:
+    full_name:
+      type:         string(255)
+      notnull:      true
+    email:
+      type:         string(255)
+      notnull:      true
+[/code]
+
+After some time you recognize that using *fullname* is not applicable anymore since you want to greet the user on your website only by it's first name and not his full one. So changing from a single *fullname* column to a pair of *first_name* and *last_name* columns is needed. To achieve this you can change your *schema.yml* file to the following as you would always do.
+
+[code=yaml]
+User:
+  actAs:
+    Timestampable:  ~
+  columns:
+    first_name:
+      type:         string(255)
+      notnull:      true
+    last_name:
+      type:         string(255)
+      notnull:      true
+    email:
+      type:         string(255)
+      notnull:      true
+[/code]
+
+If you now want to apply these changes to your database you can use the *doctrine-migrations-diff* task to generate the differences between the current and the changed schema. These changes are converted by Doctrine into a migrations file which will be applied to your database the next time you migrate it to a higher version.
+
+[code=bash]
+symfony doctrine:generate-migrations-diff
+[/code]
+
+To apply the migrations you have just generated you will have to use the *doctrine:migrate* task. When called without any parameter this task will use all migrations that need be applied to your database to update it to the current schema.
+
+
+### Applying migrations
+
+[code=bash]
+symfony doctrine:migrate
+symfony doctrine:build --all-classes
+[/code]
+
+As might have recognized you still have to run the *doctrine:build* task with the *--all-classes* switch. This is because your model files won't get updated by the *doctrine:migrate* task. But as always in symfony there is a way to do this by using a shorter way.
+
+[code=bash]
+symfony doctrine:build --all-classes --and-migrate
+[/code]
+
+The *doctrine:build* task can also take a switch *--and-migrate* to also migrate your database to the current version along with other operations your perform with it. So this way you will update your database schema and your model files.
