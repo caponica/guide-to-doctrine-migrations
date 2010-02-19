@@ -2,90 +2,65 @@
 
 If you want to use migrations in your symfony projects you have two options to do so. You can either use migrations right fromt the start of your project or you can create migrations from your existing model files or an already existing database.
 
-
 ### Starting on a new project
 
 When starting on a fresh project you first need to create the database you want to use for your project. This is can easily be done by letting Doctrine build it.
 
-[code=bash]
-symfony doctrine:build-db
-[/code]
+    $ php symfony doctrine:build-db
 
-Now that the database is ready you need to create a database schema in your *config/doctrine/schema.yml* file. You could for example create a small table to save blog posts in your database.
+Now that the database is ready you need to create a database schema in your `config/doctrine/schema.yml` file. You could for example create a small table to save blog posts in your database.
 
-[code=yaml]
-BlogPost:
-  actAs:
-    Timestampable: ~
-  columns:
-    title: string(255)
-    body: clob
-[/code]
+    BlogPost:
+      actAs:
+        Timestampable: ~
+      columns:
+        title: string(255)
+        body: clob
 
-After you created the tables in your schema.yml file you need to need to generate a first version of your model files so that doctrine can generate your first migrations for you. Since symfony 1.3 you can use the *doctrine:build* task to do this.
+After you created the tables in your `schema.yml` file you need to need to generate a first version of your model files so that doctrine can generate your first migrations for you. Since symfony 1.3 you can use the `doctrine:build` task to do this.
 
-[code=bash]
-symfony doctrine:build --all-classes
-[/code]
+    $ php symfony doctrine:build --all-classes
 
-So now you have your models set up but your still lacking the tables in the databases. Because you don't always want to use *doctrine:build-all* everytime your *schema.yml* file changes you use the *doctrine:generate-migrations-model* task to generate your first migrations for the database.
+So now you have your models set up but your still lacking the tables in the databases. Because you don't always want to use `doctrine:build-all` everytime your `schema.yml` file changes you use the `doctrine:generate-migrations-model` task to generate your first migrations for the database.
 
-[code=bash]
-symfony doctrine:generate-migrations-model
-[/code]
+    $ php symfony doctrine:generate-migrations-model
 
 Until now you just created the migrations for your database but the tables are still missing in your database. To finally migrate the changes in your database you have to use the following task.
 
-[code=bash]
-symfony doctrine:migrate
-[/code]
+    $ php symfony doctrine:migrate
 
 After using it you will see that your database is now up to date and is ready to be used.
 
-
 ### Starting with an existing database
 
-If you already have an existing database you can still start using migrations in your project. By using the *doctrine:generate-migrations-db* task Doctrine will check your database for all tables and create migrations for it.
+If you already have an existing database you can still start using migrations in your project. By using the `doctrine:generate-migrations-db` task Doctrine will check your database for all tables and create migrations for it.
 
-[code=bash]
-symfony doctrine:generate-migrations-db
-[/code]
+    $ php symfony doctrine:generate-migrations-db
 
 After generating the migrations from your database you need to drop and rebuild it so that doctrine can start to use migration versions in it.
 
 If you have import data in your database you will still have to dump and reload it after you set up migrations!
 
-[code=bash]
-symfony doctrine:drop-db
-symfony doctrine:build-db
-[/code]
+    $ php symfony doctrine:drop-db
+    $ php symfony doctrine:build-db
 
-Now that your database is set up again you initialize the migrations by using the *doctrine:build* task.
+Now that your database is set up again you initialize the migrations by using the `doctrine:build` task.
 
-[code=bash]
-symfony doctrine:build --all-classes --and-migrate
-[/code]
-
+    $ php symfony doctrine:build --all-classes --and-migrate
 
 ### Starting with an existing model
 
-If you want to start using migrations and you already have an existing schema file and generated model files you are free to use the *doctrine:generate-migrations-db* or *doctrine:generate-migrations-model* tasks. However I prefer for no particular reason using the *doctrine:-generate-migration-model* task. So, start using migrations looks very similar to the way which is already described in the last section.
+If you want to start using migrations and you already have an existing schema file and generated model files you are free to use the `doctrine:generate-migrations-db` or `doctrine:generate-migrations-model` tasks. However I prefer for no particular reason using the `doctrine:-generate-migration-model` task. So, start using migrations looks very similar to the way which is already described in the last section.
 
-Use the *doctrine:generate-migrations-model* task to generate your initial migrations.
+Use the `doctrine:generate-migrations-model` task to generate your initial migrations.
 
-[code=bash]
-symfony doctrine:generate-migrations-db
-[/code]
+    $ php symfony doctrine:generate-migrations-db
 
 Drop and re-build the database.
 
-[code=bash]
-symfony doctrine:drop-db
-symfony doctrine:build-db
-[/code]
+    $ php symfony doctrine:drop-db
+    $ php symfony doctrine:build-db
 
 And migrate your database so that all tables exists again.
 
-[code=bash]
-symfony doctrine:migrate
-[/code]
+    $ php symfony doctrine:migrate
